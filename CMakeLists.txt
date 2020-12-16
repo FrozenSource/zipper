@@ -302,26 +302,6 @@ file(GLOB TEST_SOURCES
 
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt" VERSION)
 
-option(BUILD_SHARED_VERSION "Build the shared version of the library." ON)
-if (BUILD_SHARED_VERSION)
-  add_library (${ZIPPER_LIBRARY} SHARED ${ZIPPER_SOURCES} ${MINIZIP_SOURCES} )
-  target_include_directories(
-    ${ZIPPER_LIBRARY}
-    PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include>
-  )
-  if (UNIX)
-    SET_TARGET_PROPERTIES(${ZIPPER_LIBRARY} PROPERTIES
-                          SOVERSION ${ZIPPER_VERSION_MAJOR}
-                          VERSION ${ZIPPER_VERSION_MAJOR}.${ZIPPER_VERSION_MINOR}.${ZIPPER_VERSION_PATCH})
-  endif()
-  
-  target_link_libraries(${ZIPPER_LIBRARY} ${ZLIB_LIBRARIES} ${EXTRA_LIBS})
-  
-  list(APPEND TARGET_LIST ${ZIPPER_LIBRARY})
-endif()
-
 option(BUILD_STATIC_VERSION "Build the static version of the library." ON)
 if (BUILD_STATIC_VERSION)
   set(STATIC_ZIPPER_LIBRARY static${ZIPPER_LIBRARY})
